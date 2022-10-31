@@ -265,11 +265,29 @@
 
     |Адміністратор|
         start
-        :
+        :Надає системі інструкції для створення резервної копії даних;
+        note left #ffaaaa
+        <b>Можливо
+        <b>BACKUP.ERROR.NETWORK
+        end note
     |Система|
-        :
+        :Обробляє запит від користувача;
+        note right #ffaaaa
+        <b>Можливо
+        <b>BACKUP.ERROR.NETWORK
+        end note
+        :Виконує запит та створення резервну копію даних;
+        note right #ffaaaa
+        <b>Можливі
+        <b>BACKUP.ERROR.NETWORK, BACKUP.ERROR.IO
+        end note
 
     |Адміністратор|
+        :Отримує .json файл резервної копії;
+        note left #ffaaaa
+        <b>Можливі
+        <b>BACKUP.ERROR.NETWORK, BACKUP.ERROR.DISK_FULL
+        end note
         stop;
         
 @enduml
