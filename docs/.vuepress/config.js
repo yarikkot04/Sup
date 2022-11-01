@@ -15,7 +15,7 @@ module.exports = {
     }]
   ],
   port: 3030,
-  base: '/docs/',
+  base: '/Sup/',
   theme: 'cool',
   // dest: 'dist',
   head: [
@@ -95,7 +95,7 @@ module.exports = {
     // editLinkText: 'Ви можете покращити цю сторінку'
 
   },
-  title: 'Назва проєкту',
+  title: 'Система управління проектами',
   description: 'Курсова робота з дисципліни "Бази даних"',
   configureWebpack: {
     resolve: {
