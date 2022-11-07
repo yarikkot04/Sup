@@ -137,15 +137,11 @@
  **Рис. 5.2** Сценарій редагування завдання.   
     
 </center>
-    
-```md
 
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;"
->
+---
+
+### На **рис. 5.3** зображено **сценарій видалення проекту**.
+
 ***ID:*** PROJECT.DELETE
 
 ***НАЗВА:*** Видалення проекту
@@ -158,44 +154,51 @@
 
 ***ВИКЛЮЧНІ СИТУАЦІЇ:***
 
-PROJECT.ERRORS.ACCESS_DENIED - Користувач не має необхідних прав доступу до функціоналу системи<br>
-PROJECT.ERRORS.INVALID_DATA - Користувач ввів некоректні дані<br>
-PROJECT.ERRORS.NOT_EXIST - Проекту не існує<br>
+- PROJECT.ERRORS.ACCESS_DENIED - Користувач не має необхідних прав доступу до функціоналу системи<br>
+- PROJECT.ERRORS.INVALID_DATA - Користувач ввів некоректні дані<br>
+- PROJECT.ERRORS.NOT_EXIST - Проекту не існує<br>
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
-1. Користувач натискає на "Видалити проект"<br>
-2. Система перевіряє коректність введених даних<br>
-3. Система видаляє проект<br>
-4. Система повідомляє користувача про успішне видалення проекту
-
+<center>
+    
 @startuml
 
-|Користувач|
-    start
-    :натискає на "Видалити проект";
-note right #ffaaaa
-    PROJECT.ERRORS.ACCESS_DENIED
-    Користувач не має необхідних прав
-    доступу до функціоналу системи 
-end note
-|Система|
-    :перевіряє коректність введених даних;
-note right #ffaaaa
-    PROJECT.ERRORS.INVALID_DATA 
-    користувач ввів некоректні дані 
-end note
-    :видаляє проект;
-note right #ffaaaa
-    PROJECT.ERRORS.NOT_EXIST
-    Проекту не існує
-end note
-    :повідомляє користувача про успішне видалення проекту;
-    stop
-
+    |Користувач|
+     start
+      :натискає на "Видалити проект";
+       note right #ffaaaa
+       PROJECT.ERRORS.ACCESS_DENIED
+       Користувач не має необхідних прав
+       доступу до функціоналу системи 
+       end note
+     |Система|
+      :перевіряє коректність введених даних;
+       note right #ffaaaa
+       PROJECT.ERRORS.INVALID_DATA 
+       користувач ввів некоректні дані 
+       end note
+      :видаляє проект;
+       note right #ffaaaa
+       PROJECT.ERRORS.NOT_EXIST
+       Проекту не існує
+       end note
+      :повідомляє користувача про успішне видалення проекту;
+     stop;
 @enduml
 
-**Рис.** Сценарій видалення проекту.
+**Рис.5.3 Сценарій видалення проекту.
+   
+</center>    
+```md
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
 
 ***ID:*** PROJECT.ADD_MEMBER
 
