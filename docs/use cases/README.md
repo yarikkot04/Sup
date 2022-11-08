@@ -9,7 +9,7 @@
     usecase Admin2 as "<b>ADM_2</b>\nКерувати даними системи"
 
     usecase Manage1 as "<b>MAN_1</b>\nКерувати проєктом"
-    usecase Manage2 as "<b>MAN_2</b>\nКервувати даними проєкту"
+    usecase Manage2 as "<b>MAN_2</b>\nКерувати даними проєкту"
     usecase Manage3 as "<b>MAN_3</b>\nКерувати командами та учасниками"
     usecase Manage4 as "<b>MAN_4</b>\nКерувати завданнями"
 
@@ -51,6 +51,46 @@
  @enduml
 
 ## Схеми використання для менеджера
+@startuml
+    actor Manager
+
+    usecase Manage1 as "<b>MAN_1</b>\nКерувати проєктом"
+    usecase Manage2 as "<b>MAN_2</b>\nКерувати даними проєкту"
+    usecase Manage3 as "<b>MAN_3</b>\nКерувати командами та учасниками"
+    usecase Manage4 as "<b>MAN_4</b>\nКерувати завданнями"
+
+    usecase Project1 as "<b>PROJECT.CREATE</b>\nСтворити проєкт"
+    usecase Project2 as "<b>PROJECT.EDIT</b>\nРедагування проекту"
+    usecase Project3 as "<b>PROJECT.DELETE</b>\nВидалення проекту"
+    usecase Project4 as "<b>PROJECT.ADD_MEMBER</b>\nДодавання учасника до проекту"
+    usecase Project5 as "<b>PROJECT.REMOVE_MEMBER</b>\nВидалення учасника з проекту"
+
+    usecase Task1 as "<b>TASK.CREATE</b>\nСтворити завдання"
+    usecase Task2 as "<b>TASK.EDIT</b>\nРедагування завдання"
+    usecase Task3 as "<b>TASK.ASSIGN</b>\nПризначення виконавця завдання"
+    usecase Task4 as "<b>TASK.ASSIGN.REQUEST.APPROVE</b>\nПідтвердити обробку завдання, допомоги та іншого"
+    usecase Task5 as "<b>TASK.ASSIGN.REQUEST.DECLINE</b>\nВідхилити запит"
+    usecase Task6 as "<b>TASK.REMOVE</b>\nВидалення завдання"
+
+    Manager -u-> Manage1
+    Manager -u-> Manage2
+    Manager -u-> Manage3
+    Manager -u-> Manage4
+
+    Project1 .d.> Manage1 <<extends>>
+    Project3 .d.> Manage1 <<extends>>
+    Project2 .d.> Manage2 <<extends>>
+    Project4 .d.> Manage3 <<extends>>
+    Project5 .d.> Manage3 <<extends>>
+
+    Task1 .d.> Manage4 <<extends>>
+    Task2 .d.> Manage4 <<extends>>
+    Task3 .d.> Manage4 <<extends>>
+    Task4 .d.> Manage4 <<extends>>
+    Task5 .d.> Manage4 <<extends>>
+    Task6 .d.> Manage4 <<extends>>
+
+@enduml
 
 ## Схеми використання для адміністратора
 ## Сценарії
@@ -71,7 +111,7 @@ TASK.ERRORS.ACCESS_DENIED - Користувач не має необхідни�
 TASK.ERRORS.INVALID_DATA - Користувач ввів некоректні дані.
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
-
+<center>
 @startuml
 
 |Користувач|
@@ -93,6 +133,8 @@ TASK.ERRORS.INVALID_DATA - Користувач ввів некоректні д
     про успішне створення завдання;
     stop;
 @enduml
+
+</center>
 
 ***ID:*** TASK.EDIT
 
@@ -168,17 +210,17 @@ TASK.ERRORS.NOT_EXIST - Задачі не існує.
       :встановлює статус "Чекає на допомогу" для завдання або створює будь-які необхідні пояснення щодо ситуації;
     |Система|
       :перевіряє ці дані;
-       note right #ffaaaa
+       note right #ffaaaa 
        TASK.ERRORS.INVALID_DATA
        Користувач ввів некоректні дані
        TASK.ERRORS.ACCESS_DENIED
        Користувач не має необхідних прав доступу до функціоналу системи
        end note
       :змінює статус завдання;
-       note right #ffaaaa
-       TASK.ERRORS.NOT_EXIST 
-       Задача не існує
-       end note;
+      note right #ffaaaa
+      TASK.ERRORS.NOT_EXIST
+      Задача не існує
+      end note
       :повідомляє адміністратора про необхідність надати допомогу;
     stop;
 
@@ -262,7 +304,8 @@ TASK.ERRORS.NOT_EXIST - Задачі не існує.
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
-<center>            
+<center>
+
 @startuml
   
      |Користувач|
@@ -431,7 +474,7 @@ TASK.ERRORS.NOT_EXIST - Задачі не існує.
 **Рис. n** Сценарій резервного копіювання даних.
 
 </center>
-=======
+
 ---
 
 ***ID:*** TASK.ASSIGN.REQUEST.DECLINE
