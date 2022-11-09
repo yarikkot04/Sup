@@ -4,9 +4,9 @@
     actor Administrator
     actor Manager         
     actor Developer
+    actor Guest
 
-    usecase Admin1 as "<b>ADM_1</b>\nКерувати системою"
-    usecase Admin2 as "<b>ADM_2</b>\nКерувати даними системи"
+    usecase Admin as "<b>ADM</b>\nКерувати даними системи"
 
     usecase Manage1 as "<b>MAN_1</b>\nКерувати проєктом"
     usecase Manage2 as "<b>MAN_2</b>\nКерувати даними проєкту"
@@ -15,8 +15,9 @@
 
     usecase Develope1 as "<b>DEV_1</b>\nВиконання дій з завданнями"
 
-    Administrator -> Admin1
-    Administrator -> Admin2
+    usecase Guest1 as "<b>GUE_1</b>\nАвторизація в системі"
+
+    Administrator -> Admin
 
     Manager -> Manage4
     Manager -> Manage3
@@ -25,8 +26,25 @@
 
     Administrator -d-|> Manager
     Manager -d-|> Developer
+    Developer -d-|> Guest
 
     Developer -> Develope1
+    Guest -> Guest1
+@enduml
+
+## Схеми використання для гістя
+@startuml
+    actor Guest
+
+    usecase Guest1 as "<b>GUE_1</b>\nАвторизація в системі"
+    
+    usecase User1 as "<b>USER.LOGIN</b>\nВхід в систему"
+    usecase User2 as "<b>USER.REGISTER</b>\nРеєстрація в системі"
+
+    Guest -u-> Guest1
+
+    User1 .d.> Guest1
+    User2 .d.> Guest1
 @enduml
 
 ## Схеми використання для розробника
@@ -43,11 +61,11 @@
 
     Developer -u-> DEV1
 
-    TASK1 .d.> DEV1 <<extends>>
-    TASK2 .d.> DEV1 <<extends>>
-    TASK3 .d.> DEV1 <<extends>>
-    TASK4 .d.> DEV1 <<extends>>
-    TASK5 .d.> DEV1 <<extends>>
+    TASK1 .d.> DEV1: <<extends>>
+    TASK2 .d.> DEV1: <<extends>>
+    TASK3 .d.> DEV1: <<extends>>
+    TASK4 .d.> DEV1: <<extends>>
+    TASK5 .d.> DEV1: <<extends>>
  @enduml
 
 ## Схеми використання для менеджера
@@ -77,22 +95,36 @@
     Manager -u-> Manage3
     Manager -u-> Manage4
 
-    Project1 .d.> Manage1 <<extends>>
-    Project3 .d.> Manage1 <<extends>>
-    Project2 .d.> Manage2 <<extends>>
-    Project4 .d.> Manage3 <<extends>>
-    Project5 .d.> Manage3 <<extends>>
+    Project1 .d.> Manage1: <<extends>>
+    Project3 .d.> Manage1: <<extends>>
+    Project2 .d.> Manage2: <<extends>>
+    Project4 .d.> Manage3: <<extends>>
+    Project5 .d.> Manage3: <<extends>>
 
-    Task1 .d.> Manage4 <<extends>>
-    Task2 .d.> Manage4 <<extends>>
-    Task3 .d.> Manage4 <<extends>>
-    Task4 .d.> Manage4 <<extends>>
-    Task5 .d.> Manage4 <<extends>>
-    Task6 .d.> Manage4 <<extends>>
+    Task1 .d.> Manage4: <<extends>>
+    Task2 .d.> Manage4: <<extends>>
+    Task3 .d.> Manage4: <<extends>>
+    Task4 .d.> Manage4: <<extends>>
+    Task5 .d.> Manage4: <<extends>>
+    Task6 .d.> Manage4: <<extends>>
 
 @enduml
 
 ## Схеми використання для адміністратора
+@startuml
+    actor Administrator
+
+    usecase Admin as "<b>ADM</b>\nКерувати даними системи"
+
+    usecase Backup1 as "<b>BACKUP.CREATE</b>\nСтворити резервну копію"
+    usecase Backup2 as "<b>BACKUP.LOAD</b>\nВідновити резервну копію"
+
+    Administrator -u-> Admin
+
+    Backup1 .d.> Admin: <<extends>>
+    Backup2 .d.> Admin: <<extends>>
+
+@enduml
 ## Сценарії
 ***ID:*** TASK.CREATE
 
@@ -111,7 +143,7 @@ TASK.ERRORS.ACCESS_DENIED - Користувач не має необхідни�
 TASK.ERRORS.INVALID_DATA - Користувач ввів некоректні дані.
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
-<center>
+
 @startuml
 
 |Користувач|
@@ -134,7 +166,7 @@ TASK.ERRORS.INVALID_DATA - Користувач ввів некоректні д
     stop;
 @enduml
 
-</center>
+
 
 ***ID:*** TASK.EDIT
 
@@ -176,7 +208,7 @@ TASK.ERRORS.NOT_EXIST - Задачі не існує.
     stop;
 @enduml
 
-</center>
+
 
 
 ---
