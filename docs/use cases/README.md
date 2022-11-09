@@ -1,335 +1,131 @@
-# Модель прецедентів
-
-В цьому файлі необхідно перелічити всі документи, розроблені в проекті та дати посилання на них.
-
-*Модель прецедентів повинна містити загальні оглядові діаграми та специфікації прецедентів.*
-
-
-
-Вбудовування зображень діаграм здійснюється з використанням сервісу [plantuml.com](https://plantuml.com/). 
-
-В markdown-файлі використовується опис діаграми
-
-```md
-
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;"
->
-***ID:*** PROJECT.DELETE
-
-***НАЗВА:*** Видалення проекту
-
-***УЧАСНИКИ:*** Користувач(Адміністратор або Менеджер), Система
-
-***ПЕРЕДУМОВИ:*** Користувач має необхідні права доступу до функціоналу системи
-
-***РЕЗУЛЬТАТ:*** Проєкт видалено
-
-***ВИКЛЮЧНІ СИТУАЦІЇ:***
-
-PROJECT.ERRORS.ACCESS_DENIED - Користувач не має необхідних прав доступу до функціоналу системи<br>
-PROJECT.ERRORS.INVALID_DATA - Користувач ввів некоректні дані<br>
-PROJECT.ERRORS.NOT_EXIST - Проекту не існує<br>
-
-***ОСНОВНИЙ СЦЕНАРІЙ:***
-
-1. Користувач натискає на "Видалити проект"<br>
-2. Система перевіряє коректність введених даних<br>
-3. Система видаляє проект<br>
-4. Система повідомляє користувача про успішне видалення проекту
+## Дiаграма прецедентiв
 
 @startuml
+    actor Administrator
+    actor Manager         
+    actor Developer
+    actor Guest
 
-|Користувач|
-    start
-    :натискає на "Видалити проект";
-note right #ffaaaa
-    PROJECT.ERRORS.ACCESS_DENIED
-    Користувач не має необхідних прав
-    доступу до функціоналу системи 
-end note
-|Система|
-    :перевіряє коректність введених даних;
-note right #ffaaaa
-    PROJECT.ERRORS.INVALID_DATA 
-    користувач ввів некоректні дані 
-end note
-    :видаляє проект;
-note right #ffaaaa
-    PROJECT.ERRORS.NOT_EXIST
-    Проекту не існує
-end note
-    :повідомляє користувача про успішне видалення проекту;
-    stop
+    usecase Admin as "<b>ADM</b>\nКерувати даними системи"
+
+    usecase Manage1 as "<b>MAN_1</b>\nКерувати проєктом"
+    usecase Manage2 as "<b>MAN_2</b>\nКерувати даними проєкту"
+    usecase Manage3 as "<b>MAN_3</b>\nКерувати командами та учасниками"
+    usecase Manage4 as "<b>MAN_4</b>\nКерувати завданнями"
+
+    usecase Develope1 as "<b>DEV_1</b>\nВиконання дій з завданнями"
+
+    usecase Guest1 as "<b>GUE_1</b>\nАвторизація в системі"
+
+    Administrator -> Admin
+
+    Manager -> Manage4
+    Manager -> Manage3
+    Manager -> Manage2
+    Manager -> Manage1
+
+    Administrator -d-|> Manager
+    Manager -d-|> Developer
+    Developer -d-|> Guest
+
+    Developer -> Develope1
+    Guest -> Guest1
+@enduml
+
+## Схеми використання для гістя
+@startuml
+    actor Guest
+
+    usecase Guest1 as "<b>GUE_1</b>\nАвторизація в системі"
+    
+    usecase User1 as "<b>USER.LOGIN</b>\nВхід в систему"
+    usecase User2 as "<b>USER.REGISTER</b>\nРеєстрація в системі"
+
+    Guest -u-> Guest1
+
+    User1 .d.> Guest1
+    User2 .d.> Guest1
+@enduml
+
+## Схеми використання для розробника
+ @startuml
+    actor Developer
+
+    usecase DEV1 as "<b>DEV1</b>\nВиконання дій з завданнями"
+
+    usecase TASK1 as "<b>TASK.CHANGE_STATUS</b>\nЗміна статусу завдання"
+    usecase TASK2 as "<b>TASK.REQUEST_HELP</b>\nВимога допомоги у виконанні задачі"
+    usecase TASK3 as "<b>TASK.ASSIGN.REQUEST</b>\nВимога назначення або засадження"
+    usecase TASK4 as "<b>TASK.ARTIFACTS.SHOW</b>\nПерегляд артефактів задачі"
+    usecase TASK5 as "<b>TASK.ARTIFACTS.UPDATE</b>\nОновлення артефактів задачі"
+
+    Developer -u-> DEV1
+
+    TASK1 .d.> DEV1: <<extends>>
+    TASK2 .d.> DEV1: <<extends>>
+    TASK3 .d.> DEV1: <<extends>>
+    TASK4 .d.> DEV1: <<extends>>
+    TASK5 .d.> DEV1: <<extends>>
+ @enduml
+
+## Схеми використання для менеджера
+@startuml
+    actor Manager
+
+    usecase Manage1 as "<b>MAN_1</b>\nКерувати проєктом"
+    usecase Manage2 as "<b>MAN_2</b>\nКерувати даними проєкту"
+    usecase Manage3 as "<b>MAN_3</b>\nКерувати командами та учасниками"
+    usecase Manage4 as "<b>MAN_4</b>\nКерувати завданнями"
+
+    usecase Project1 as "<b>PROJECT.CREATE</b>\nСтворити проєкт"
+    usecase Project2 as "<b>PROJECT.EDIT</b>\nРедагування проекту"
+    usecase Project3 as "<b>PROJECT.DELETE</b>\nВидалення проекту"
+    usecase Project4 as "<b>PROJECT.ADD_MEMBER</b>\nДодавання учасника до проекту"
+    usecase Project5 as "<b>PROJECT.REMOVE_MEMBER</b>\nВидалення учасника з проекту"
+
+    usecase Task1 as "<b>TASK.CREATE</b>\nСтворити завдання"
+    usecase Task2 as "<b>TASK.EDIT</b>\nРедагування завдання"
+    usecase Task3 as "<b>TASK.ASSIGN</b>\nПризначення виконавця завдання"
+    usecase Task4 as "<b>TASK.ASSIGN.REQUEST.APPROVE</b>\nПідтвердити обробку завдання, допомоги та іншого"
+    usecase Task5 as "<b>TASK.ASSIGN.REQUEST.DECLINE</b>\nВідхилити запит"
+    usecase Task6 as "<b>TASK.REMOVE</b>\nВидалення завдання"
+
+    Manager -u-> Manage1
+    Manager -u-> Manage2
+    Manager -u-> Manage3
+    Manager -u-> Manage4
+
+    Project1 .d.> Manage1: <<extends>>
+    Project3 .d.> Manage1: <<extends>>
+    Project2 .d.> Manage2: <<extends>>
+    Project4 .d.> Manage3: <<extends>>
+    Project5 .d.> Manage3: <<extends>>
+
+    Task1 .d.> Manage4: <<extends>>
+    Task2 .d.> Manage4: <<extends>>
+    Task3 .d.> Manage4: <<extends>>
+    Task4 .d.> Manage4: <<extends>>
+    Task5 .d.> Manage4: <<extends>>
+    Task6 .d.> Manage4: <<extends>>
 
 @enduml
 
-**Рис.** Сценарій видалення проекту.
-
-***ID:*** PROJECT.ADD_MEMBER
-
-***НАЗВА:*** Додавання учасника до проекту
-
-***УЧАСНИКИ:*** Користувач(Адміністратор або Менеджер), Система
-
-***ПЕРЕДУМОВИ:*** Користувач має необхідні права доступу до функціоналу системи
-
-***РЕЗУЛЬТАТ:*** Учасник доданий до проекту
-
-***ВИКЛЮЧНІ СИТУАЦІЇ:***
-
-PROJECT.ERRORS.ACCESS_DENIED - Користувач не має необхідних прав доступу до функціоналу системи<br>
-PROJECT.ERRORS.INVALID_DATA - Користувач ввів некоректні дані<br>
-PROJECT.ERRORS.NOT_EXIST - Проекту не існує<br>
-PROJECT.ERRORS.USER_NOT_EXIST - Користувача не існує<br>
-
-***ОСНОВНИЙ СЦЕНАРІЙ:***
-
-1. Користувач вводить username або id учасника<br>
-2. Система перевіряє коректність введених даних<br>
-3. Система додає учасника до проекту<br>
-4. Система повідомляє користувача про успішне додавання учасника до проекту
-
-***ID:*** PROJECT.CREATE
-
-***НАЗВА:*** Створення проекту.
-
-***УЧАСНИКИ:*** Користувач(Адміністратор або Менеджер), Система.
-
-***ПЕРЕДУМОВИ:*** Користувач має необхідні права доступу до функціоналу системи.
-
-***РЕЗУЛЬТАТ:*** Проект створено.
-
-***ВИКЛЮЧНІ СИТУАЦІЇ:***  
-
-PROJECT.ERRORS.ACCESS_DENIED - Користувач не має необхідних прав доступу до функціоналу системи.
-
-PROJECT.ERRORS.INVALID_DATA - Користувач ввів некоректні дані.
-
-***ОСНОВНИЙ СЦЕНАРІЙ:***
-
+## Схеми використання для адміністратора
 @startuml
+    actor Administrator
 
-|Користувач|
-    start
-    :вводить назву проекту та опис;
-    note right #ffaaaa
-    PROJECT.ERRORS.ACCESS_DENIED - Користувач не має
-    необхідних прав доступу
-    до функціоналу системи
-    end note
-|Система|
-    :перевіряє коректність введених даних;
-    note right #ffaaaa
-    PROJECT.ERRORS.INVALID_DATA - Користувач ввів 
-    некоректні дані
-    end note
-    :створює проект;
-    :повідомляє користувача 
-    про успішне створення проекту;
-    stop;
-@enduml
+    usecase Admin as "<b>ADM</b>\nКерувати даними системи"
 
+    usecase Backup1 as "<b>BACKUP.CREATE</b>\nСтворити резервну копію"
+    usecase Backup2 as "<b>BACKUP.LOAD</b>\nВідновити резервну копію"
 
-***ID:*** PROJECT.EDIT
+    Administrator -u-> Admin
 
-***НАЗВА:*** Редагування завдання
-
-***УЧАСНИКИ:*** Користувач(Адміністратор або Менеджер), Система.
-
-***ПЕРЕДУМОВИ:*** Користувач має необхідні права доступу до функціоналу системи
-
-***РЕЗУЛЬТАТ:*** Завдання відредаговано
-
-***ВИКЛЮЧНІ СИТУАЦІЇ:***  
-
-PROJECT.ERRORS.ACCESS_DENIED - Користувач не має необхідних прав доступу до функціоналу системи.
-
-PROJECT.ERRORS.INVALID_DATA - Користувач ввів некоректні дані.
-
-PROJECT.ERRORS.NOT_EXIST - Проекту не існує.
-
-@startuml
-
-|Користувач|
-    start 
-    :вводить назву проекту та опис;
-    note right #ffaaaa
-    PROJECT.ERRORS.NOT_EXIST - Проекту не існує
-    PROJECT.ERRORS.ACCESS_DENIED - Користувач не має
-    необхідних прав доступу
-    до функціоналу системи
-    end note
-|Система|
-    :перевіряє коректність введених даних;
-    note right #ffaaaa
-    PROJECT.ERRORS.INVALID_DATA - Користувач ввів 
-    некоректні дані
-    end note
-    :відредаговує проект;
-    :повідомляє користувача про успішне відредагування проекту;
-    stop;
-@enduml
-
-@startuml
-
-|Користувач|
-    start
-    :вводить username або id учасника;
-note right #ffaaaa
-    PROJECT.ERRORS.ACCESS_DENIED
-    Користувач не має необхідних прав
-    доступу до функціоналу системи 
-end note
-|Система|
-    :перевіряє коректність введених даних;
-note right #ffaaaa
-    PROJECT.ERRORS.INVALID_DATA 
-    користувач ввів некоректні дані 
-end note
-    :Система додає учасника до проекту;
-note right #ffaaaa
-    PROJECT.ERRORS.USER_NOT_EXIST
-    Користувача не існує
-    PROJECT.ERRORS.NOT_EXIST
-    Проекту не існує
-end note
-    :повідомляє користувача про успішне додавання учасника до проекту;
-    stop
+    Backup1 .d.> Admin: <<extends>>
+    Backup2 .d.> Admin: <<extends>>
 
 @enduml
- 
-**Рис.** Сценарій додавання учасника до проекту.
-
-@startuml
-
-    right header
-        <font size=24 color=black>Package: <b>UCD_3.0
-    end header
-
-    title
-        <font size=18 color=black>UC_8. Редагувати конфігурацію порталу
-        <font size=16 color=black>Діаграма прецедентів
-    end title
-
-
-    actor "Користувач" as User #eeeeaa
-    
-    package UCD_1{
-        usecase "<b>UC_1</b>\nПереглянути список \nзвітів" as UC_1 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1</b>\nЗастосувати фільтр" as UC_1.1
-    usecase "<b>UC_1.2</b>\nПереглянути метадані \nзвіту" as UC_1.2  
-    usecase "<b>UC_1.2.1</b>\nДати оцінку звіту" as UC_1.2.1  
-    usecase "<b>UC_1.2.2</b>\nПереглянути інформацію \nпро авторів звіту" as UC_1.2.2
-    
-    package UCD_1 {
-        usecase "<b>UC_4</b>\nВикликати звіт" as UC_4 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1.1</b>\n Використати \nпошукові теги" as UC_1.1.1  
-    usecase "<b>UC_1.1.2</b>\n Використати \nрядок пошуку" as UC_1.1.2
-    usecase "<b>UC_1.1.3</b>\n Використати \nавторів" as UC_1.1.3  
-    
-    
-    
-    User -> UC_1
-    UC_1.1 .u.> UC_1 :extends
-    UC_1.2 .u.> UC_1 :extends
-    UC_4 .d.> UC_1.2 :extends
-    UC_1.2 .> UC_1.2 :extends
-    UC_1.2.1 .u.> UC_1.2 :extends
-    UC_1.2.2 .u.> UC_1.2 :extends
-    UC_1 ..> UC_1.2.2 :extends
-    
-    
-    UC_1.1.1 -u-|> UC_1.1
-    UC_1.1.2 -u-|> UC_1.1
-    UC_1.1.3 -u-|> UC_1.1
-    
-    right footer
-        Аналітичний портал. Модель прецедентів.
-        НТУУ КПІ ім.І.Сікорського
-        Киів-2020
-    end footer
-
-@enduml
-
-**Діаграма прецедентів**
-
-</center>
-```
-
-яка буде відображена наступним чином
-
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;"
->
-
-@startuml
-
-    right header
-        <font size=24 color=black>Package: <b>UCD_3.0
-    end header
-
-    title
-        <font size=18 color=black>UC_8. Редагувати конфігурацію порталу
-        <font size=16 color=black>Діаграма прецедентів
-    end title
-
-
-    actor "Користувач" as User #eeeeaa
-    
-    package UCD_1{
-        usecase "<b>UC_1</b>\nПереглянути список \nзвітів" as UC_1 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1</b>\nЗастосувати фільтр" as UC_1.1
-    usecase "<b>UC_1.2</b>\nПереглянути метадані \nзвіту" as UC_1.2  
-    usecase "<b>UC_1.2.1</b>\nДати оцінку звіту" as UC_1.2.1  
-    usecase "<b>UC_1.2.2</b>\nПереглянути інформацію \nпро авторів звіту" as UC_1.2.2
-    
-    package UCD_1 {
-        usecase "<b>UC_4</b>\nВикликати звіт" as UC_4 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1.1</b>\n Використати \nпошукові теги" as UC_1.1.1  
-    usecase "<b>UC_1.1.2</b>\n Використати \nрядок пошуку" as UC_1.1.2
-    usecase "<b>UC_1.1.3</b>\n Використати \nавторів" as UC_1.1.3  
-    
-    
-    
-    User -> UC_1
-    UC_1.1 .u.> UC_1 :extends
-    UC_1.2 .u.> UC_1 :extends
-    UC_4 .d.> UC_1.2 :extends
-    UC_1.2 .> UC_1.2 :extends
-    UC_1.2.1 .u.> UC_1.2 :extends
-    UC_1.2.2 .u.> UC_1.2 :extends
-    UC_1 ..> UC_1.2.2 :extends
-    
-    
-    UC_1.1.1 -u-|> UC_1.1
-    UC_1.1.2 -u-|> UC_1.1
-    UC_1.1.3 -u-|> UC_1.1
-    
-    right footer
-        Аналітичний портал. Модель прецедентів.
-        НТУУ КПІ ім.І.Сікорського
-        Киів-2020
-    end footer
-
-@enduml
-
-**Діаграма прецедентів**
-
+## Сценарії
 ***ID:*** TASK.CREATE
 
 ***НАЗВА:*** Створення завдання.
@@ -369,6 +165,8 @@ TASK.ERRORS.INVALID_DATA - Користувач ввів некоректні д
     про успішне створення завдання;
     stop;
 @enduml
+
+
 
 ***ID:*** TASK.EDIT
 
@@ -410,7 +208,7 @@ TASK.ERRORS.NOT_EXIST - Задачі не існує.
     stop;
 @enduml
 
-</center>
+
 
 
 ---
@@ -444,17 +242,17 @@ TASK.ERRORS.NOT_EXIST - Задачі не існує.
       :встановлює статус "Чекає на допомогу" для завдання або створює будь-які необхідні пояснення щодо ситуації;
     |Система|
       :перевіряє ці дані;
-       note right #ffaaaa
+       note right #ffaaaa 
        TASK.ERRORS.INVALID_DATA
        Користувач ввів некоректні дані
        TASK.ERRORS.ACCESS_DENIED
        Користувач не має необхідних прав доступу до функціоналу системи
        end note
       :змінює статус завдання;
-       note right #ffaaaa
-       TASK.ERRORS.NOT_EXIST 
-       Задача не існує
-       end note;
+      note right #ffaaaa
+      TASK.ERRORS.NOT_EXIST
+      Задача не існує
+      end note
       :повідомляє адміністратора про необхідність надати допомогу;
     stop;
 
@@ -538,7 +336,8 @@ TASK.ERRORS.NOT_EXIST - Задачі не існує.
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
-<center>            
+<center>
+
 @startuml
   
      |Користувач|
@@ -707,7 +506,7 @@ TASK.ERRORS.NOT_EXIST - Задачі не існує.
 **Рис. n** Сценарій резервного копіювання даних.
 
 </center>
-=======
+
 ---
 
 ***ID:*** TASK.ASSIGN.REQUEST.DECLINE
