@@ -57,6 +57,7 @@
 <center>
     
 @startuml
+
     actor Guest
 
     usecase Guest1 as "<b>GUE_1</b>\nАвторизація в системі"
@@ -192,17 +193,33 @@
 
 ### На **рис. 6.1** зображено **сценарій створення проекту**.
 
-***ID:*** PROJECT.CREATE
+    actor Administrator
+    actor Manager         
+    actor Developer
+    actor Guest
 
-***НАЗВА:*** Створення проекту.
+    usecase Admin as "<b>ADM</b>\nКерувати даними системи"
 
-***УЧАСНИКИ:*** Користувач(Адміністратор або Менеджер), Система.
+    usecase Manage1 as "<b>MAN_1</b>\nКерувати проєктом"
+    usecase Manage2 as "<b>MAN_2</b>\nКерувати даними проєкту"
+    usecase Manage3 as "<b>MAN_3</b>\nКерувати командами та учасниками"
+    usecase Manage4 as "<b>MAN_4</b>\nКерувати завданнями"
 
-***ПЕРЕДУМОВИ:*** Користувач має необхідні права доступу до функціоналу системи.
 
-***РЕЗУЛЬТАТ:*** Проект створено.
+    usecase Develope1 as "<b>DEV_1</b>\nВиконання дій з завданнями"
 
-***ВИКЛЮЧНІ СИТУАЦІЇ:***  
+    usecase Guest1 as "<b>GUE_1</b>\nАвторизація в системі"
+
+    Administrator -> Admin
+
+    Manager -> Manage4
+    Manager -> Manage3
+    Manager -> Manage2
+    Manager -> Manage1
+
+    Administrator -d-|> Manager
+    Manager -d-|> Developer
+    Developer -d-|> Guest
 
 - [PROJECT.ERRORS.ACCESS_DENIED] Користувач не має необхідних прав доступу до функціоналу системи.
 - [PROJECT.ERRORS.INVALID_DATA] Користувач ввів некоректні дані.
@@ -259,7 +276,16 @@
 
 <center>
 
+
+    Developer -> Develope1
+    Guest -> Guest1
+@enduml
+
+## Схеми використання для гістя
+
 @startuml
+    actor Guest
+
 
     |Користувач|
      start 
@@ -398,6 +424,98 @@
 ---
 
 ### На **рис. 6.5** зображено **сценарій створення завдання**.
+
+
+    usecase Guest1 as "<b>GUE_1</b>\nАвторизація в системі"
+    
+    usecase User1 as "<b>USER.LOGIN</b>\nВхід в систему"
+    usecase User2 as "<b>USER.REGISTER</b>\nРеєстрація в системі"
+
+    Guest -u-> Guest1
+
+    User1 .d.> Guest1
+    User2 .d.> Guest1
+@enduml
+
+## Схеми використання для розробника
+ @startuml
+    actor Developer
+
+    usecase DEV1 as "<b>DEV1</b>\nВиконання дій з завданнями"
+
+    usecase TASK1 as "<b>TASK.CHANGE_STATUS</b>\nЗміна статусу завдання"
+    usecase TASK2 as "<b>TASK.REQUEST_HELP</b>\nВимога допомоги у виконанні задачі"
+    usecase TASK3 as "<b>TASK.ASSIGN.REQUEST</b>\nВимога назначення або засадження"
+    usecase TASK4 as "<b>TASK.ARTIFACTS.SHOW</b>\nПерегляд артефактів задачі"
+    usecase TASK5 as "<b>TASK.ARTIFACTS.UPDATE</b>\nОновлення артефактів задачі"
+
+    Developer -u-> DEV1
+
+    TASK1 .d.> DEV1: <<extends>>
+    TASK2 .d.> DEV1: <<extends>>
+    TASK3 .d.> DEV1: <<extends>>
+    TASK4 .d.> DEV1: <<extends>>
+    TASK5 .d.> DEV1: <<extends>>
+ @enduml
+
+## Схеми використання для менеджера
+@startuml
+    actor Manager
+
+    usecase Manage1 as "<b>MAN_1</b>\nКерувати проєктом"
+    usecase Manage2 as "<b>MAN_2</b>\nКерувати даними проєкту"
+    usecase Manage3 as "<b>MAN_3</b>\nКерувати командами та учасниками"
+    usecase Manage4 as "<b>MAN_4</b>\nКерувати завданнями"
+
+    usecase Project1 as "<b>PROJECT.CREATE</b>\nСтворити проєкт"
+    usecase Project2 as "<b>PROJECT.EDIT</b>\nРедагування проекту"
+    usecase Project3 as "<b>PROJECT.DELETE</b>\nВидалення проекту"
+    usecase Project4 as "<b>PROJECT.ADD_MEMBER</b>\nДодавання учасника до проекту"
+    usecase Project5 as "<b>PROJECT.REMOVE_MEMBER</b>\nВидалення учасника з проекту"
+
+    usecase Task1 as "<b>TASK.CREATE</b>\nСтворити завдання"
+    usecase Task2 as "<b>TASK.EDIT</b>\nРедагування завдання"
+    usecase Task3 as "<b>TASK.ASSIGN</b>\nПризначення виконавця завдання"
+    usecase Task4 as "<b>TASK.ASSIGN.REQUEST.APPROVE</b>\nПідтвердити обробку завдання, допомоги та іншого"
+    usecase Task5 as "<b>TASK.ASSIGN.REQUEST.DECLINE</b>\nВідхилити запит"
+    usecase Task6 as "<b>TASK.REMOVE</b>\nВидалення завдання"
+
+    Manager -u-> Manage1
+    Manager -u-> Manage2
+    Manager -u-> Manage3
+    Manager -u-> Manage4
+
+    Project1 .d.> Manage1: <<extends>>
+    Project3 .d.> Manage1: <<extends>>
+    Project2 .d.> Manage2: <<extends>>
+    Project4 .d.> Manage3: <<extends>>
+    Project5 .d.> Manage3: <<extends>>
+
+    Task1 .d.> Manage4: <<extends>>
+    Task2 .d.> Manage4: <<extends>>
+    Task3 .d.> Manage4: <<extends>>
+    Task4 .d.> Manage4: <<extends>>
+    Task5 .d.> Manage4: <<extends>>
+    Task6 .d.> Manage4: <<extends>>
+
+@enduml
+
+## Схеми використання для адміністратора
+@startuml
+    actor Administrator
+
+    usecase Admin as "<b>ADM</b>\nКерувати даними системи"
+
+    usecase Backup1 as "<b>BACKUP.CREATE</b>\nСтворити резервну копію"
+    usecase Backup2 as "<b>BACKUP.LOAD</b>\nВідновити резервну копію"
+
+    Administrator -u-> Admin
+
+    Backup1 .d.> Admin: <<extends>>
+    Backup2 .d.> Admin: <<extends>>
+
+@enduml
+## Сценарії
 
 ***ID:*** TASK.CREATE
 
@@ -621,17 +739,17 @@
       :встановлює статус "Чекає на допомогу" для завдання або створює будь-які необхідні пояснення щодо ситуації;
     |Система|
       :перевіряє ці дані;
-       note right #ffaaaa
+       note right #ffaaaa 
        TASK.ERRORS.INVALID_DATA
        Користувач ввів некоректні дані
        TASK.ERRORS.ACCESS_DENIED
        Користувач не має необхідних прав доступу до функціоналу системи
        end note
       :змінює статус завдання;
-       note right #ffaaaa
-       TASK.ERRORS.NOT_EXIST 
-       Задача не існує
-       end note;
+      note right #ffaaaa
+      TASK.ERRORS.NOT_EXIST
+      Задача не існує
+      end note
       :повідомляє адміністратора про необхідність надати допомогу;
     stop;
 
@@ -714,7 +832,8 @@
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
-<center>            
+<center>
+
 @startuml
   
      |Користувач|
@@ -974,5 +1093,40 @@
 **Рис. 6.16** Cценарій cворення резервної копії даних.
 
 </center>
-    
+
+---
+
+***ID:*** TASK.ASSIGN.REQUEST.DECLINE
+
+***НАЗВА*** Відхилити запит
+
+***УЧАСНИКИ:*** - Користувач<br>- Cистема
+
+***ПЕРЕДУМОВИ:*** Користувач існує<br>- Користувач має необхідні права доступу до функціоналу системи
+
+***РЕЗУЛЬТАТ:*** Запит зазначено як "Відхилено"
+
+***ВИКЛЮЧНІ СИТУАЦІЇ:*** - Запит не зареєстровано<br>- Необхідні дані не заповнено вірно
+
+***ОСНОВНИЙ СЦЕНАРІЙ:*** 
+
+@startuml
+
+|Користувач|
+start
+:Користувач повідомляє про необхідність змін;
+:Користувач вказує причину відхилення;
+|Система|
+:Система перевіряє дані, вказані користувачем;
+note right #ffaaaa
+Необхідні дані не заповнено вірно
+end note
+:Система приховує дані з бази даних і переміщує на "Відхилено";
+note right #ffaaaa
+Запит не зареєстровано
+end note
+stop;
+
+@enduml
+
 ---
