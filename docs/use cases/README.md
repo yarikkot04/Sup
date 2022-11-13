@@ -84,6 +84,7 @@
 <center>
     
 @startuml
+
     actor Developer
 
     usecase DEV1 as "<b>DEV1</b>\nВиконання дій з завданнями"
@@ -101,7 +102,7 @@
     TASK3 .d.> DEV1: <<extends>>
     TASK4 .d.> DEV1: <<extends>>
     TASK5 .d.> DEV1: <<extends>>
- @enduml    
+@enduml    
 
 **Рис. 3.1** Усі можливості розробника.
 
@@ -193,36 +194,20 @@
 
 ### На **рис. 6.1** зображено **сценарій створення проекту**.
 
-    actor Administrator
-    actor Manager         
-    actor Developer
-    actor Guest
+***ID:*** PROJECT.CREATE
 
-    usecase Admin as "<b>ADM</b>\nКерувати даними системи"
+***НАЗВА:*** Створення проекту.
 
-    usecase Manage1 as "<b>MAN_1</b>\nКерувати проєктом"
-    usecase Manage2 as "<b>MAN_2</b>\nКерувати даними проєкту"
-    usecase Manage3 as "<b>MAN_3</b>\nКерувати командами та учасниками"
-    usecase Manage4 as "<b>MAN_4</b>\nКерувати завданнями"
+***УЧАСНИКИ:*** Користувач(Адміністратор або Менеджер), Система.
 
+***ПЕРЕДУМОВИ:*** Користувач має необхідні права доступу до функціоналу системи.
 
-    usecase Develope1 as "<b>DEV_1</b>\nВиконання дій з завданнями"
+***РЕЗУЛЬТАТ:*** Проект створено.
 
-    usecase Guest1 as "<b>GUE_1</b>\nАвторизація в системі"
+***ВИКЛЮЧНІ СИТУАЦІЇ:***  
 
-    Administrator -> Admin
-
-    Manager -> Manage4
-    Manager -> Manage3
-    Manager -> Manage2
-    Manager -> Manage1
-
-    Administrator -d-|> Manager
-    Manager -d-|> Developer
-    Developer -d-|> Guest
-
-- [PROJECT.ERRORS.ACCESS_DENIED] Користувач не має необхідних прав доступу до функціоналу системи.
-- [PROJECT.ERRORS.INVALID_DATA] Користувач ввів некоректні дані.
+- [PROJECT.ERRORS.ACCESS_DENIED] Користувач не має необхідних прав доступу до функціоналу системи
+- [PROJECT.ERRORS.INVALID_DATA] Користувач ввів некоректні дані
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
@@ -231,23 +216,23 @@
 @startuml
 
     |Користувач|
-     start
-      :вводить назву проекту та опис;
-       note right #ffaaaa
-       PROJECT.ERRORS.ACCESS_DENIED - Користувач не має
-       необхідних прав доступу
-       до функціоналу системи
-       end note
+        start
+        :вводить назву проекту та опис;
+        note right #ffaaaa
+        PROJECT.ERRORS.ACCESS_DENIED - Користувач не має
+        необхідних прав доступу
+        до функціоналу системи
+        end note
     |Система|
-      :перевіряє коректність введених даних;
-       note right #ffaaaa
-       PROJECT.ERRORS.INVALID_DATA - Користувач ввів 
-       некоректні дані
-       end note
-      :створює проект;
-      :повідомляє користувача 
-       про успішне створення проекту;
-     stop;
+        :перевіряє коректність введених даних;
+        note right #ffaaaa
+        PROJECT.ERRORS.INVALID_DATA - Користувач ввів 
+        некоректні дані
+        end note
+        :створює проект;
+        :повідомляє користувача 
+        про успішне створення проекту;
+        stop;
 @enduml
 
 **Рис. 6.1** Сценарій створення проекту.
@@ -256,7 +241,7 @@
 
 ---
 
-### На **рис. 6.2** зображено **сценарій редагування завдання**.
+### На **рис. 6.2** зображено **сценарій редагування проекту**.
 
 ***ID:*** PROJECT.EDIT
 
@@ -270,44 +255,34 @@
 
 ***ВИКЛЮЧНІ СИТУАЦІЇ:***  
 
-- [PROJECT.ERRORS.ACCESS_DENIED] Користувач не має необхідних прав доступу до функціоналу системи.
-- [PROJECT.ERRORS.INVALID_DATA] Користувач ввів некоректні дані.
-- [PROJECT.ERRORS.NOT_EXIST] Проекту не існує.
+- [PROJECT.ERRORS.ACCESS_DENIED] Користувач не має необхідних прав доступу до функціоналу системи
+- [PROJECT.ERRORS.INVALID_DATA] Користувач ввів некоректні дані
+- [PROJECT.ERRORS.NOT_EXIST] Проекту не існує
 
 <center>
 
-
-    Developer -> Develope1
-    Guest -> Guest1
-@enduml
-
-## Схеми використання для гістя
-
 @startuml
-    actor Guest
-
 
     |Користувач|
-     start 
-      :вводить назву проекту та опис;
-       note right #ffaaaa
-       PROJECT.ERRORS.NOT_EXIST - Проекту не існує
-       PROJECT.ERRORS.ACCESS_DENIED - Користувач не має
-       необхідних прав доступу
-       до функціоналу системи
-       end note
+     start
+        :вводить назву проекту та опис;
+         note right #ffaaaa
+         PROJECT.ERRORS.NOT_EXIST - Проекту не існує
+         PROJECT.ERRORS.ACCESS_DENIED - Користувач не має
+         необхідних прав доступу
+         до функціоналу системи
+         end note
     |Система|
-      :перевіряє коректність введених даних;
-       note right #ffaaaa
-       PROJECT.ERRORS.INVALID_DATA - Користувач ввів 
-       некоректні дані
-       end note
-      :відредаговує проект;
-      :повідомляє користувача про успішне відредагування проекту;
-     stop;
-@enduml
+        :перевіряє коректність введених даних;
+         note right #ffaaaa
+         PROJECT.ERRORS.INVALID_DATA - Користувач ввів 
+         некоректні дані
+         end note
+        :відредаговує проект;
+        :повідомляє користувача про успішне відредагування проекту;     
+      stop
 
- **Рис. 6.2** Сценарій редагування завдання.   
+@enduml
     
 </center>
 
@@ -425,98 +400,6 @@
 
 ### На **рис. 6.5** зображено **сценарій створення завдання**.
 
-
-    usecase Guest1 as "<b>GUE_1</b>\nАвторизація в системі"
-    
-    usecase User1 as "<b>USER.LOGIN</b>\nВхід в систему"
-    usecase User2 as "<b>USER.REGISTER</b>\nРеєстрація в системі"
-
-    Guest -u-> Guest1
-
-    User1 .d.> Guest1
-    User2 .d.> Guest1
-@enduml
-
-## Схеми використання для розробника
- @startuml
-    actor Developer
-
-    usecase DEV1 as "<b>DEV1</b>\nВиконання дій з завданнями"
-
-    usecase TASK1 as "<b>TASK.CHANGE_STATUS</b>\nЗміна статусу завдання"
-    usecase TASK2 as "<b>TASK.REQUEST_HELP</b>\nВимога допомоги у виконанні задачі"
-    usecase TASK3 as "<b>TASK.ASSIGN.REQUEST</b>\nВимога назначення або засадження"
-    usecase TASK4 as "<b>TASK.ARTIFACTS.SHOW</b>\nПерегляд артефактів задачі"
-    usecase TASK5 as "<b>TASK.ARTIFACTS.UPDATE</b>\nОновлення артефактів задачі"
-
-    Developer -u-> DEV1
-
-    TASK1 .d.> DEV1: <<extends>>
-    TASK2 .d.> DEV1: <<extends>>
-    TASK3 .d.> DEV1: <<extends>>
-    TASK4 .d.> DEV1: <<extends>>
-    TASK5 .d.> DEV1: <<extends>>
- @enduml
-
-## Схеми використання для менеджера
-@startuml
-    actor Manager
-
-    usecase Manage1 as "<b>MAN_1</b>\nКерувати проєктом"
-    usecase Manage2 as "<b>MAN_2</b>\nКерувати даними проєкту"
-    usecase Manage3 as "<b>MAN_3</b>\nКерувати командами та учасниками"
-    usecase Manage4 as "<b>MAN_4</b>\nКерувати завданнями"
-
-    usecase Project1 as "<b>PROJECT.CREATE</b>\nСтворити проєкт"
-    usecase Project2 as "<b>PROJECT.EDIT</b>\nРедагування проекту"
-    usecase Project3 as "<b>PROJECT.DELETE</b>\nВидалення проекту"
-    usecase Project4 as "<b>PROJECT.ADD_MEMBER</b>\nДодавання учасника до проекту"
-    usecase Project5 as "<b>PROJECT.REMOVE_MEMBER</b>\nВидалення учасника з проекту"
-
-    usecase Task1 as "<b>TASK.CREATE</b>\nСтворити завдання"
-    usecase Task2 as "<b>TASK.EDIT</b>\nРедагування завдання"
-    usecase Task3 as "<b>TASK.ASSIGN</b>\nПризначення виконавця завдання"
-    usecase Task4 as "<b>TASK.ASSIGN.REQUEST.APPROVE</b>\nПідтвердити обробку завдання, допомоги та іншого"
-    usecase Task5 as "<b>TASK.ASSIGN.REQUEST.DECLINE</b>\nВідхилити запит"
-    usecase Task6 as "<b>TASK.REMOVE</b>\nВидалення завдання"
-
-    Manager -u-> Manage1
-    Manager -u-> Manage2
-    Manager -u-> Manage3
-    Manager -u-> Manage4
-
-    Project1 .d.> Manage1: <<extends>>
-    Project3 .d.> Manage1: <<extends>>
-    Project2 .d.> Manage2: <<extends>>
-    Project4 .d.> Manage3: <<extends>>
-    Project5 .d.> Manage3: <<extends>>
-
-    Task1 .d.> Manage4: <<extends>>
-    Task2 .d.> Manage4: <<extends>>
-    Task3 .d.> Manage4: <<extends>>
-    Task4 .d.> Manage4: <<extends>>
-    Task5 .d.> Manage4: <<extends>>
-    Task6 .d.> Manage4: <<extends>>
-
-@enduml
-
-## Схеми використання для адміністратора
-@startuml
-    actor Administrator
-
-    usecase Admin as "<b>ADM</b>\nКерувати даними системи"
-
-    usecase Backup1 as "<b>BACKUP.CREATE</b>\nСтворити резервну копію"
-    usecase Backup2 as "<b>BACKUP.LOAD</b>\nВідновити резервну копію"
-
-    Administrator -u-> Admin
-
-    Backup1 .d.> Admin: <<extends>>
-    Backup2 .d.> Admin: <<extends>>
-
-@enduml
-## Сценарії
-
 ***ID:*** TASK.CREATE
 
 ***НАЗВА:*** Створення завдання.
@@ -578,9 +461,9 @@
 
 ***ВИКЛЮЧНІ СИТУАЦІЇ:***  
 
-- [TASK.ERRORS.ACCESS_DENIED]Користувач не має необхідних прав доступу до функціоналу системи.
-- [TASK.ERRORS.INVALID_DAT]- Користувач ввів некоректні дані.
-- [TASK.ERRORS.NOT_EXIST] Задачі не існує.
+- [TASK.ERRORS.ACCESS_DENIED]Користувач не має необхідних прав доступу до функціоналу системи
+- [TASK.ERRORS.INVALID_DAT]- Користувач ввів некоректні дані
+- [TASK.ERRORS.NOT_EXIST] Задачі не існує
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
@@ -629,9 +512,9 @@
 
 ***ВИКЛЮЧНІ СИТУАЦІЇ:***  
 
-- Користувач не має необхідних прав доступу до функціоналу системи [TASK.ERRORS.ACCESS_DENIED]
-- Користувач ввів некоректні дані [TASK.ERRORS.INVALID_DATA]
-- Задачі не існує [TASK.ERRORS.NOT_EXIST]
+- [TASK.ERRORS.ACCESS_DENIED] Користувач не має необхідних прав доступу до функціоналу системи
+- [TASK.ERRORS.INVALID_DATA] Користувач ввів некоректні дані
+- [TASK.ERRORS.NOT_EXIST] Задачі не існує
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
@@ -679,8 +562,8 @@
 
 ***ВИКЛЮЧНІ СИТУАЦІЇ:***  
 
-- Користувач ввів некоректні дані [TASK.ERRORS.INVALID_DATA]
-- Задачі не існує [TASK.ERRORS.NOT_EXIST]
+- [TASK.ERRORS.INVALID_DATA] Користувач ввів некоректні дані 
+- [TASK.ERRORS.NOT_EXIST] Задачі не існує 
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
@@ -724,9 +607,9 @@
 
 ***ВИКЛЮЧНІ СИТУАЦІЇ:***
 
-- Користувач не має необхідних прав доступу до функціоналу системи - [TASK.ERRORS.ACCESS_DENIED]
-- Користувач ввів некоректні дані - [TASK.ERRORS.INVALID_DATA]
-- Задача не існує - [TASK.ERRORS.NOT_EXIST]
+- [TASK.ERRORS.ACCESS_DENIED] Користувач не має необхідних прав доступу до функціоналу системи
+- [TASK.ERRORS.INVALID_DATA] Користувач ввів некоректні дані 
+- [TASK.ERRORS.NOT_EXIST] Задача не існує
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
@@ -915,8 +798,8 @@
 ***РЕЗУЛЬТАТ:*** Задачу видалено
 
 ***ВИКЛЮЧНІ СИТУАЦІЇ:*** 
-- Користувач ввів некоректні дані [TASK.ERRORS.INVALID_DATA]
-- Задачі не існує [TASK.ERRORS.NOT_EXIST]
+- [TASK.ERRORS.INVALID_DATA] Користувач ввів некоректні дані 
+- [TASK.ERRORS.NOT_EXIST] Задачі не існує 
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:*** 
 
@@ -963,8 +846,8 @@
 **РЕЗУЛЬТАТ:** Доступ до функціоналу системи згідно своєї ролі
 
 **ВИКЛЮЧНІ СИТУАЦІЇ:**
-- Користувач не зареєстрований в системі [USER.ERRORS.NOT_EXISTS]
-- Користувач ввів невірний логін або пароль [USER.ERRORS.INVALID_CREDENTIALS]
+- [USER.ERRORS.NOT_EXISTS] Користувач не зареєстрований в системі 
+- [USER.ERRORS.INVALID_CREDENTIALS] Користувач ввів невірний логін або пароль 
 
 <center>
 
@@ -995,7 +878,7 @@
 
 ---
 
-### На **рис. 6.15* зображено **сценарій реєстрації користувача.*
+### На **рис. 6.15** зображено **сценарій реєстрації користувача.**
 
 **ID:** USER.REGISTRATION
 
@@ -1008,8 +891,8 @@
 **РЕЗУЛЬТАТ:** Користувач зареєстрований в системі
 
 **ВИКЛЮЧНІ СИТУАЦІЇ:**
-- Користувач вже зареєстрований в системі [SER.ERRORS.ALREADY_EXISTS]
-- Користувач ввів некоректні дані [USER.ERRORS.INVALID_DATA]
+- [SER.ERRORS.ALREADY_EXISTS] Користувач вже зареєстрований в системі 
+- [USER.ERRORS.INVALID_DATA] Користувач ввів некоректні дані 
 
 <center>
 
@@ -1040,7 +923,7 @@
 
 ---
 
-### На **рис. 6.16 зображено **сценарій cворення резервної копії даних.*
+### На **рис. 6.16** зображено **сценарій cворення резервної копії даних.**
 
 **ID:** BACKUP.CREATE
 
@@ -1054,9 +937,9 @@
 **РЕЗУЛЬТАТ:** Резервна копія даних системи
 
 **ВИКЛЮЧНІ СИТУАЦІЇ:**
-- Проблеми з доступом до пам'яті [BACKUP.ERROR.IO]
-- Екстрене відключення з мережі [BACKUP.ERROR.NETWORK]
-- Недостатньр пам'яті на диску [BACKUP.ERROR.DISK_FULL]
+- [BACKUP.ERROR.IO] Проблеми з доступом до пам'яті 
+- [BACKUP.ERROR.NETWORK] Екстрене відключення з мережі 
+- [BACKUP.ERROR.DISK_FULL] Недостатньр пам'яті на диску 
 
 <center>
 
@@ -1095,6 +978,7 @@
 </center>
 
 ---
+### На **рис. 6.17** зображено **сценарій відхилення запиту**
 
 ***ID:*** TASK.ASSIGN.REQUEST.DECLINE
 
@@ -1112,21 +996,75 @@
 
 @startuml
 
-|Користувач|
-start
-:Користувач повідомляє про необхідність змін;
-:Користувач вказує причину відхилення;
-|Система|
-:Система перевіряє дані, вказані користувачем;
-note right #ffaaaa
-Необхідні дані не заповнено вірно
-end note
-:Система приховує дані з бази даних і переміщує на "Відхилено";
-note right #ffaaaa
-Запит не зареєстровано
-end note
-stop;
+    |Користувач|
+      start
+       :Користувач повідомляє про необхідність змін;
+       :Користувач вказує причину відхилення;
+    |Система|
+       :Система перевіряє дані, вказані користувачем;
+        note right #ffaaaa
+        Необхідні дані не заповнено вірно
+        end note
+       :Система приховує дані з бази даних і переміщує на "Відхилено";
+        note right #ffaaaa
+        Запит не зареєстровано
+        end note
+      stop;
 
 @enduml
 
+---
+
+### На **рис. 6.18** зображено **сценарій загрузки з резервної копії даних**
+
+**ID:** BACKUP.LOAD
+
+**НАЗВА:** Загрузка з резервної копії даних
+
+**УЧАСНИКИ:** Адміністратор, система
+
+**ПЕРЕДУМОВИ:** - Система підключена до мережі<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;- У системі є дані для резервного копіювання
+
+**РЕЗУЛЬТАТ:** Резервна копія даних системи створена
+
+**ВИКЛЮЧНІ СИТУАЦІЇ:**
+- [BACKUP.ERROR.IO] Проблеми з доступом до пам'яті 
+- [BACKUP.ERROR.NETWORK] Екстрене відключення з мережі 
+
+<center>
+
+@startuml
+
+    |Адміністратор|
+      start
+       :Надає системі інструкції для створення загрузки з резервної копії даних;
+        note left #ffaaaa
+        Можливо
+        BACKUP.ERROR.NETWORK
+        end note
+    |Система|
+       :Обробляє запит від користувача;
+        note right #ffaaaa
+        Можливо
+        BACKUP.ERROR.NETWORK
+        end note
+       :Виконує запит та створення резервну копію даних;
+        note right #ffaaaa
+        Можливі
+        BACKUP.ERROR.NETWORK
+        end note
+    |Адміністратор|
+       :Отримує .json файл резервної копії;
+        note left #ffaaaa
+        Можливі
+        BACKUP.ERROR.NETWORK
+        end note
+        stop;
+        
+@enduml
+
+**Рис. 6.16** Cценарій загрузки з резервної копії даних
+
+</center>
 ---
