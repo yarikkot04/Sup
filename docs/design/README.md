@@ -4,6 +4,8 @@
 
 ## Модель бізнес-об'єктів 
 
+<center>
+
 @startuml
 
 entity Project {
@@ -108,7 +110,11 @@ User "1"       --> User.isAdmin
 
 @enduml
 
+</center>
+
 ## ER-модель
+
+<center>
 
 @startuml
   entity Project <<ENTITY>> {
@@ -156,5 +162,12 @@ User "1"       --> User.isAdmin
   
 @enduml
 
+</center>
+
 ## Реляційна схема
 
+<center>
+
+![](../../images/sceme.png )
+
+</center>
