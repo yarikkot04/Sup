@@ -6,6 +6,8 @@ actionLink: /intro/
 footer: "ECL 2.0 Licensed | Copyright © [YYYY] [Your Name]"
 ---
 
+**Закінчив як курсову [Ярослав КОТЕНКО](https://t.me/everain_19)**
+
 
 **Виконав(-ла):** 
 
